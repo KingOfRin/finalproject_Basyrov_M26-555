@@ -1,0 +1,24 @@
+help
+register --username alice --password 1234
+login --username alice --password 1234
+show-portfolio
+buy --currency USD --amount 5000
+buy --currency BTC --amount 0.05
+buy --currency EUR --amount 200
+sell --currency BTC --amount 0.01
+show-portfolio
+show-portfolio --base EUR
+get-rate --from USD --to BTC
+update-rates
+show-rates
+show-rates --top 2
+show-rates --currency RUB
+sell --currency BTC --amount 10
+sell --currency ETH --amount 1
+buy --currency ABC --amount 1
+get-rate --from USD --to XYZ
+show-rates --currency ABC
+register --username alice --password 1234
+register --username bob --password 12
+login --username alice --password 0000
+exit
