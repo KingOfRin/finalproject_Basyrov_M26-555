@@ -48,6 +48,8 @@ class ParserConfig:
     # Эндпоинты
     COINGECKO_URL: str = "https://api.coingecko.com/api/v3/simple/price"
     EXCHANGERATE_API_URL: str = "https://v6.exchangerate-api.com/v6"
+    # Открытый эндпоинт без ключа (реже обновляется); используется, если ключ не задан
+    EXCHANGERATE_OPEN_API_URL: str = "https://open.er-api.com/v6/latest"
 
     # Списки валют
     BASE_CURRENCY: str = "USD"
