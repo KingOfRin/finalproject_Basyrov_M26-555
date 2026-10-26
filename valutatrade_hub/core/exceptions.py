@@ -69,6 +69,16 @@ class RateUnavailableError(ValutaTradeError):
         )
 
 
+class RatesCacheEmptyError(ValutaTradeError):
+    """Локальный кэш курсов (rates.json) пуст или не найден."""
+
+    def __init__(self):
+        super().__init__(
+            "Локальный кеш курсов пуст. "
+            "Выполните 'update-rates', чтобы загрузить данные."
+        )
+
+
 class UsernameTakenError(ValutaTradeError):
     """Имя пользователя уже занято."""
 

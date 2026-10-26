@@ -13,6 +13,7 @@ from email.utils import parsedate_to_datetime
 import requests
 
 from valutatrade_hub.core.exceptions import ApiRequestError
+from valutatrade_hub.logging_config import get_parser_logger
 from valutatrade_hub.parser_service.config import API_KEY_ENV, ParserConfig
 
 HTTP_OK = 200
@@ -134,22 +135,28 @@ class CoinGeckoClient(BaseApiClient):
 
 
 class ExchangeRateApiClient(BaseApiClient):
-    """Курсы фиатных валют из ExchangeRate-API (нужен API-ключ)."""
+    """Курсы фиатных валют из ExchangeRate-API.
+
+    С ключом (EXCHANGERATE_API_KEY) используется основной эндпоинт v6,
+    без ключа — открытый эндпоинт open.er-api.com с тем же форматом ответа.
+    """
 
     name = "ExchangeRate-API"
     source_key = "exchangerate"
 
     def fetch_rates(self) -> dict[str, float]:
         key = self.config.EXCHANGERATE_API_KEY
-        if not key:
-            raise ApiRequestError(
-                f"не задан API-ключ — установите переменную "
-                f"окружения {API_KEY_ENV} или добавьте её в файл .env"
-            )
         base = self.config.BASE_CURRENCY
-        payload = self._request_json(
-            f"{self.config.EXCHANGERATE_API_URL}/{key}/latest/{base}"
-        )
+        if key:
+            url = f"{self.config.EXCHANGERATE_API_URL}/{key}/latest/{base}"
+        else:
+            get_parser_logger().warning(
+                "%s key is not set (%s), using open access endpoint",
+                self.name,
+                API_KEY_ENV,
+            )
+            url = f"{self.config.EXCHANGERATE_OPEN_API_URL}/{base}"
+        payload = self._request_json(url)
         if payload.get("result") != "success":
             raise ApiRequestError(self._describe_api_error(payload))
 
