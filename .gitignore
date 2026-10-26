@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Окружение и сборка
+.venv/
+venv/
+dist/
+build/
+
+# Инструменты
+.ruff_cache/
+
+# Логи приложения
+logs/
+*.log
+
+# Секреты (API-ключ ExchangeRate-API)
+.env
+
+# Временные файлы атомарной записи JSON
+data/*.tmp

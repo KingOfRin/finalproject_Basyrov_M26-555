@@ -1,0 +1,59 @@
+[project]
+name = "finalproject-basyrov-m26-555"
+version = "0.1.0"
+description = "ValutaTrade Hub: консольный валютный кошелёк с симуляцией торговли и сервисом парсинга курсов"
+readme = "README.md"
+authors = [
+    { name = "Ramil Basyrov", email = "sf.vfkmxbr@mail.ru" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "prettytable>=3.18.0",
+    "requests>=2.32.0",
+]
+
+[project.scripts]
+project = "valutatrade_hub.cli.interface:main"
+valutatrade-parser = "valutatrade_hub.parser_service.scheduler:main"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "valutatrade_hub"
+module-root = ""
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.2",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+exclude = ["venv", ".venv", "dist", "__pycache__"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
+
+# Конфигурация приложения, читается SettingsLoader (valutatrade_hub/infra/settings.py).
+# Относительные пути считаются от корня проекта.
+[tool.valutatrade]
+data_dir = "data"
+users_file = "data/users.json"
+portfolios_file = "data/portfolios.json"
+rates_file = "data/rates.json"
+exchange_rates_file = "data/exchange_rates.json"
+rates_ttl_seconds = 300
+default_base_currency = "USD"
+log_dir = "logs"
+actions_log_file = "logs/actions.log"
+parser_log_file = "logs/parser.log"
+log_level = "INFO"
+log_format = "%(levelname)s %(asctime)s %(message)s"
+log_date_format = "%Y-%m-%dT%H:%M:%S"
+log_max_bytes = 1048576
+log_backup_count = 5
+parser_update_interval_seconds = 300
